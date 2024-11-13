@@ -1,10 +1,16 @@
-import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import { sacramentmeetingsQueryOptions } from "@/api/sacramentmeetings";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-export const Route = createFileRoute('/sacramentmeetings')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute("/sacramentmeetings")({
+  loader: (opts) =>
+    opts.context.queryClient.ensureQueryData(sacramentmeetingsQueryOptions()),
+  component: SacramentMeetingsComponent,
+});
 
-function RouteComponent() {
-  return 'Hello /sacramentmeetings!'
+function SacramentMeetingsComponent() {
+  const meetingsQuery = useSuspenseQuery(sacramentmeetingsQueryOptions());
+  const meetings = meetingsQuery.data;
+  console.log("meetings", meetings);
+  return `Hello /sacramentmeetings ${meetings.length}!`;
 }
