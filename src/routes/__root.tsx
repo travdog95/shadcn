@@ -42,8 +42,10 @@ function RootComponent() {
                 ["/speakertracker", "Speaker Tracker"],
                 ["/prayertracker", "Prayer Tracker"],
                 ["/callingsworkshop", "Callings Workshop"],
+                ["/memberslist", "Members List"],
                 ["/users", "Users"],
                 ["/datafiles", "Data Files"],
+                ["/migration", "Migration"],
                 // ['/profile', 'Profile'],
                 // ['/login', 'Login'],
               ] as const

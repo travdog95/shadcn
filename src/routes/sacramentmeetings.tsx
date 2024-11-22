@@ -11,6 +11,5 @@ export const Route = createFileRoute("/sacramentmeetings")({
 function SacramentMeetingsComponent() {
   const meetingsQuery = useSuspenseQuery(sacramentmeetingsQueryOptions());
   const meetings = meetingsQuery.data;
-  console.log("meetings", meetings);
   return `Hello /sacramentmeetings ${meetings.length}!`;
 }
