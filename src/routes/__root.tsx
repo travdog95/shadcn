@@ -43,10 +43,10 @@ function RootComponent() {
                 ["/prayertracker", "Prayer Tracker"],
                 ["/callingsworkshop", "Callings Workshop"],
                 ["/memberslist", "Members List"],
+                ["/callings", "Callings"],
                 ["/users", "Users"],
                 ["/datafiles", "Data Files"],
                 ["/migration", "Migration"],
-                // ['/profile', 'Profile'],
                 // ['/login', 'Login'],
               ] as const
             ).map(([to, label]) => {

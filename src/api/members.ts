@@ -1,20 +1,24 @@
-import { supabase } from "@/lib/supabase";
-import { queryOptions } from "@tanstack/react-query";
 import axios from "axios";
+import { queryOptions, useMutation } from "@tanstack/react-query";
+
+import { queryClient } from "@/main";
+import { fetchMembers, postMember } from "@/services/membersService";
 
 const BASE_URL = "http://localhost:5000/api";
 
 export const membersQueryOptions = () =>
   queryOptions({
     queryKey: ["members"],
-    queryFn: async () => {
-      const { data, error } = await supabase.from("members").select();
-      if (error) {
-        throw new Error(error.message);
-      }
-      return data;
-    },
+    queryFn: () => fetchMembers(),
   });
+
+export const useCreateMember = () => {
+  return useMutation({
+    mutationKey: ["members", "create"],
+    mutationFn: postMember,
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
+};
 
 export const mdGetMembers = () =>
   queryOptions({
