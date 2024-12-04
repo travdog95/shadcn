@@ -1,16 +1,16 @@
 import { TablesInsert, TablesUpdate } from "@/utils/supabase.types";
 import { supabase } from "@/lib/supabase";
 
-const TABLE_NAME = "members";
+const TABLE_NAME = "sacramentmeetings";
 
-type MemberInsert = TablesInsert<"members">;
-type MemberUpdate = TablesUpdate<"members">;
+type SacramentMeetingInsert = TablesInsert<"sacramentmeetings">;
+type SacramentMeetingUpdate = TablesUpdate<"sacramentmeetings">;
 
 type PickAsRequired<TValue, TKey extends keyof TValue> = Omit<TValue, TKey> &
   Required<Pick<TValue, TKey>>;
 
-// Get all members
-export async function fetchMembers() {
+// Get all sacrament meetings
+export async function fetchSacramentMeetings() {
   const { data, error } = await supabase.from(TABLE_NAME).select();
   if (error) {
     throw new Error(error.message);
@@ -18,8 +18,8 @@ export async function fetchMembers() {
   return data;
 }
 
-// Get a member by id
-export async function fetchMemberById(id: number) {
+// Get a sacrament meeting by id
+export async function fetchSacramentMeetingById(id: number) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .select()
@@ -31,11 +31,13 @@ export async function fetchMemberById(id: number) {
   return data;
 }
 
-// Insert a new member
-export async function postMember(newMember: MemberInsert) {
+// Insert a new sacrament meeting
+export async function postSacramentMeeting(
+  newSacramentMeeting: SacramentMeetingInsert
+) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .insert(newMember)
+    .insert(newSacramentMeeting)
     .single();
   if (error) {
     throw new Error(error.message);
@@ -43,23 +45,27 @@ export async function postMember(newMember: MemberInsert) {
   return data;
 }
 
-// Members bulk insert
-export async function postMembers(newMembers: MemberInsert[]) {
-  const { data, error } = await supabase.from(TABLE_NAME).insert(newMembers);
+// SacramentMeetings bulk insert
+export async function postSacramentMeetings(
+  newSacramentMeetings: SacramentMeetingInsert[]
+) {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .insert(newSacramentMeetings);
   if (error) {
     throw new Error(error.message);
   }
   return data;
 }
 
-// Update a member
-export async function patchMember({
+// Update a sacrament meeting
+export async function patchSacramentMeeting({
   id,
-  ...updatedMember
-}: PickAsRequired<Partial<MemberUpdate>, "id">) {
+  ...updatedSacramentMeeting
+}: PickAsRequired<Partial<SacramentMeetingUpdate>, "id">) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .update(updatedMember)
+    .update(updatedSacramentMeeting)
     .eq("id", id)
     .single();
 
@@ -70,8 +76,8 @@ export async function patchMember({
   return data;
 }
 
-// Delete a member
-export async function deleteMember(id: number) {
+// Delete a sacrament meeting
+export async function deleteSacramentMeeting(id: number) {
   const { data, error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
   if (error) {
     throw new Error(error.message);

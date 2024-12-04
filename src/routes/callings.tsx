@@ -15,7 +15,7 @@ import {
 import { Spinner } from "@/components/Spinner";
 import { callingsQueryOptions } from "@/api/callings";
 import { Tables } from "@/utils/supabase.types";
-import { useState } from "react";
+// import { useState } from "react";
 
 export const Route = createFileRoute("/callings")({
   loader: (opts) =>
@@ -28,6 +28,7 @@ type Calling = Tables<"callings">;
 function CallingsComponent() {
   const callingsQuery = useSuspenseQuery(callingsQueryOptions());
   const callings = callingsQuery.data;
+  console.log("callings", callings);
   const defaultData: Calling[] = callings;
   const columnHelper = createColumnHelper<Calling>();
   const columns = [
@@ -85,10 +86,10 @@ function CallingsComponent() {
     }),
   ];
 
-  const [data, _setData] = useState(() => [...defaultData]);
+  // const [data, _setData] = useState(() => [...defaultData]);
   // const rerender = useReducer(() => ({}), {})[1];
   const table = useReactTable({
-    data,
+    data: defaultData,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });

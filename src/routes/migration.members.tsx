@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { mdGetMembers, useCreateMember } from "@/api/members";
+import { useCreateMember } from "@/api/members";
+import { mdGetMembers } from "@/api/mongo";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/migration/members")({

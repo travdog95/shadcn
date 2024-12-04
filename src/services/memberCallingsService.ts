@@ -1,24 +1,25 @@
 import { TablesInsert, TablesUpdate } from "@/utils/supabase.types";
 import { supabase } from "@/lib/supabase";
 
-const TABLE_NAME = "callings";
+const TABLE_NAME = "membercallings";
 
-type CallingInsert = TablesInsert<"callings">;
-type CallingUpdate = TablesUpdate<"callings">;
+type MemberCallingInsert = TablesInsert<"membercallings">;
+type MemberCallingUpdate = TablesUpdate<"membercallings">;
+
 type PickAsRequired<TValue, TKey extends keyof TValue> = Omit<TValue, TKey> &
   Required<Pick<TValue, TKey>>;
 
-// Get all callings
-export async function fetchCallings() {
-  const { data, error } = await supabase.from(TABLE_NAME).select().order("id");
+// Get all member callings
+export async function fetchMemberCallings() {
+  const { data, error } = await supabase.from(TABLE_NAME).select();
   if (error) {
     throw new Error(error.message);
   }
   return data;
 }
 
-// Get a calling by id
-export async function fetchCallingById(id: number) {
+// Get a member calling by id
+export async function fetchMemberCallingById(id: number) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .select()
@@ -30,11 +31,11 @@ export async function fetchCallingById(id: number) {
   return data;
 }
 
-// Insert a new calling
-export async function postCalling(newCalling: CallingInsert) {
+// Insert a new member calling
+export async function postMemberCalling(newMemberCalling: MemberCallingInsert) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .insert(newCalling)
+    .insert(newMemberCalling)
     .single();
   if (error) {
     throw new Error(error.message);
@@ -42,23 +43,27 @@ export async function postCalling(newCalling: CallingInsert) {
   return data;
 }
 
-// Callings bulk insert
-export async function postCallings(newCallings: CallingInsert[]) {
-  const { data, error } = await supabase.from(TABLE_NAME).insert(newCallings);
+// MemberCallings bulk insert
+export async function postMemberCallings(
+  newMemberCallings: MemberCallingInsert[]
+) {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .insert(newMemberCallings);
   if (error) {
     throw new Error(error.message);
   }
   return data;
 }
 
-// Update a calling
-export async function patchCalling({
+// Update a member calling
+export async function patchMemberCalling({
   id,
-  ...updatedCalling
-}: PickAsRequired<Partial<CallingUpdate>, "id">) {
+  ...updatedMemberCalling
+}: PickAsRequired<Partial<MemberCallingUpdate>, "id">) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .update(updatedCalling)
+    .update(updatedMemberCalling)
     .eq("id", id)
     .single();
 
@@ -69,8 +74,8 @@ export async function patchCalling({
   return data;
 }
 
-// Delete a calling
-export async function deleteCalling(id: number) {
+// Delete a member calling
+export async function deleteMemberCalling(id: number) {
   const { data, error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
   if (error) {
     throw new Error(error.message);

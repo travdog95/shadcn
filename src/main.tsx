@@ -8,7 +8,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { auth } from "@/utils/auth";
 import { Spinner } from "@/components/Spinner";
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "@/routeTree.gen";
 
 export const queryClient = new QueryClient();
 

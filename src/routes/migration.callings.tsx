@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { mdGetCallings, useCreateCallings } from "@/api/callings";
+import { useCreateCallings } from "@/api/callings";
+import { mdGetCallings } from "@/api/mongo";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/migration/callings")({

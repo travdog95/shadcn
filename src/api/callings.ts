@@ -1,4 +1,3 @@
-import axios from "axios";
 import { queryOptions, useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "@/main";
@@ -7,46 +6,60 @@ import {
   fetchCallingById,
   postCalling,
   postCallings,
+  patchCalling,
+  deleteCalling,
 } from "@/services/callingsService";
-import { TablesInsert } from "@/utils/supabase.types";
+import { TablesInsert, TablesUpdate } from "@/utils/supabase.types";
 
-const BASE_URL = "http://localhost:5000/api";
+const QUERY_KEY = "callings";
+
 type CallingInsert = TablesInsert<"callings">;
+type CallingUpdate = TablesUpdate<"callings">;
 
 export const callingsQueryOptions = () =>
   queryOptions({
-    queryKey: ["callings"],
-    queryFn: () => fetchCallings(),
+    queryKey: [QUERY_KEY],
+    queryFn: fetchCallings,
   });
 
 export const callingQueryOptions = (id: number) =>
   queryOptions({
-    queryKey: ["callings", id],
+    queryKey: [QUERY_KEY, id],
     queryFn: () => fetchCallingById(id),
   });
 
 export const useCreateCalling = () => {
   return useMutation({
-    mutationKey: ["callings", "create"],
+    mutationKey: [QUERY_KEY, "create"],
     mutationFn: postCalling,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["callings"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY] }),
   });
 };
 
 export const useCreateCallings = () => {
   return useMutation({
-    mutationKey: ["callings", "create-bulk"],
+    mutationKey: [QUERY_KEY, "create-bulk"],
     mutationFn: (callings: CallingInsert[]) => postCallings(callings),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["callings"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY] }),
   });
 };
 
-// Get callings from MongoDB
-export const mdGetCallings = () =>
-  queryOptions({
-    queryKey: ["md-callings"],
-    queryFn: async () => {
-      const response = await axios.get(`${BASE_URL}/callings`);
-      return response.data;
+export const useUpdateCalling = () => {
+  return useMutation({
+    // mutationKey: [QUERY_KEY, "update"],
+    mutationFn: (calling: CallingUpdate) => {
+      if (calling.id === undefined) {
+        throw new Error("Calling id is required");
+      }
+      return patchCalling({ ...calling, id: calling.id! });
     },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY] }),
   });
+};
+
+export const useDeleteCalling = () => {
+  return useMutation({
+    mutationFn: deleteCalling,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY] }),
+  });
+};
