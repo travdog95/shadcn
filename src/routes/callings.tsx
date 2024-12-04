@@ -15,7 +15,7 @@ import {
 import { Spinner } from "@/components/Spinner";
 import { callingsQueryOptions } from "@/api/callings";
 import { Tables } from "@/utils/supabase.types";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/callings")({
   loader: (opts) =>
@@ -40,7 +40,7 @@ function CallingsComponent() {
             <Link
               to="/callings/$id"
               params={{
-                id: id.toString(),
+                id: id,
               }}
               preload="intent"
               className="block py-2 px-3 text-blue-700"
@@ -124,34 +124,6 @@ function CallingsComponent() {
             ))}
           </tbody>
         </table>
-        {/* {callings.map((calling) => {
-          return (
-            <div key={calling.id}>
-              <Link
-                to="/callings/$callingId"
-                params={{
-                  callingId: calling.id,
-                }}
-                preload="intent"
-                className="block py-2 px-3 text-blue-700"
-                activeProps={{ className: `font-bold` }}
-              >
-              <pre className="text-sm">
-                #{calling.id} - {calling.calling}{" "}
-                <MatchRoute
-                    to="/dashboard/callings/$callingId"
-                    params={{
-                      callingId: calling.id,
-                    }}
-                    pending
-                  >
-                    {(match) => <Spinner show={!!match} wait="delay-50" />}
-                  </MatchRoute>
-              </pre>
-              </Link>
-            </div>
-          );
-        })} */}
       </div>
       <div className="flex-1 border-l">
         <Outlet />

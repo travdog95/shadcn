@@ -4,6 +4,7 @@ import { queryOptions, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/main";
 import {
   fetchCallings,
+  fetchCallingById,
   postCalling,
   postCallings,
 } from "@/services/callingsService";
@@ -16,6 +17,12 @@ export const callingsQueryOptions = () =>
   queryOptions({
     queryKey: ["callings"],
     queryFn: () => fetchCallings(),
+  });
+
+export const callingQueryOptions = (id: number) =>
+  queryOptions({
+    queryKey: ["callings", id],
+    queryFn: () => fetchCallingById(id),
   });
 
 export const useCreateCalling = () => {
@@ -34,6 +41,7 @@ export const useCreateCallings = () => {
   });
 };
 
+// Get callings from MongoDB
 export const mdGetCallings = () =>
   queryOptions({
     queryKey: ["md-callings"],

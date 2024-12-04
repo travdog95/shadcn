@@ -25,17 +25,15 @@ export async function fetchCallings() {
   return ensureCallings().then(() => callings);
 }
 
-// export async function fetchInvoiceById(id: number) {
-//   return loaderDelayFn(() =>
-//     ensureInvoices().then(() => {
-//       const invoice = invoices.find((d) => d.id === id)
-//       if (!invoice) {
-//         throw new Error('Invoice not found')
-//       }
-//       return invoice
-//     }),
-//   )
-// }
+export async function fetchCallingById(id: number) {
+  return ensureCallings().then(() => {
+    const calling = callings.find((d) => d.id === id);
+    if (!calling) {
+      throw new Error("Calling not found");
+    }
+    return calling;
+  });
+}
 
 export async function postCalling(newCalling: CallingInsert) {
   await ensureCallings();
