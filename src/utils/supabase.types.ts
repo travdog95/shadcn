@@ -246,7 +246,6 @@ export type Database = {
           preferredName: string | null
           prefferedNameURL: string | null
           priesthoodOffice: string | null
-          recordNumber: string | null
           suffix: string | null
           templeRecommendExpirationDate: string | null
           templeRecommendStatus: string | null
@@ -280,7 +279,6 @@ export type Database = {
           preferredName?: string | null
           prefferedNameURL?: string | null
           priesthoodOffice?: string | null
-          recordNumber?: string | null
           suffix?: string | null
           templeRecommendExpirationDate?: string | null
           templeRecommendStatus?: string | null
@@ -314,7 +312,6 @@ export type Database = {
           preferredName?: string | null
           prefferedNameURL?: string | null
           priesthoodOffice?: string | null
-          recordNumber?: string | null
           suffix?: string | null
           templeRecommendExpirationDate?: string | null
           templeRecommendStatus?: string | null
@@ -387,18 +384,24 @@ export type Database = {
           created_at: string
           date: string
           id: number
+          mdID: string | null
+          note: string | null
           theme: string | null
         }
         Insert: {
           created_at?: string
           date: string
           id?: number
+          mdID?: string | null
+          note?: string | null
           theme?: string | null
         }
         Update: {
           created_at?: string
           date?: string
           id?: number
+          mdID?: string | null
+          note?: string | null
           theme?: string | null
         }
         Relationships: []
@@ -450,6 +453,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          email: string | null
+          firstName: string | null
+          id: number
+          isAdmin: boolean | null
+          isBishopricMember: boolean | null
+          isCommunicationSpecialist: boolean | null
+          lastName: string | null
+          middleName: string | null
+          password: string | null
+          phoneNumber: string | null
+          refreshToken: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          firstName?: string | null
+          id?: number
+          isAdmin?: boolean | null
+          isBishopricMember?: boolean | null
+          isCommunicationSpecialist?: boolean | null
+          lastName?: string | null
+          middleName?: string | null
+          password?: string | null
+          phoneNumber?: string | null
+          refreshToken?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          firstName?: string | null
+          id?: number
+          isAdmin?: boolean | null
+          isBishopricMember?: boolean | null
+          isCommunicationSpecialist?: boolean | null
+          lastName?: string | null
+          middleName?: string | null
+          password?: string | null
+          phoneNumber?: string | null
+          refreshToken?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {

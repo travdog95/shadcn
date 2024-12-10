@@ -1,22 +1,24 @@
 import { TablesInsert, TablesUpdate } from "@/utils/supabase.types";
 import { supabase } from "@/lib/supabase";
 
-const TABLE_NAME = "organizations";
+const TABLE_NAME = "users";
 
-type OrganizationInsert = TablesInsert<"organizations">;
-type OrganizationUpdate = TablesUpdate<"organizations">;
+type UserInsert = TablesInsert<"users">;
+type UserUpdate = TablesUpdate<"users">;
 type PickAsRequired<TValue, TKey extends keyof TValue> = Omit<TValue, TKey> &
   Required<Pick<TValue, TKey>>;
 
-export async function fetchOrganizations() {
-  const { data, error } = await supabase.from(TABLE_NAME).select();
+// Get all users
+export async function fetchUsers() {
+  const { data, error } = await supabase.from(TABLE_NAME).select().order("id");
   if (error) {
     throw new Error(error.message);
   }
   return data;
 }
 
-export async function fetchOrganizationById(id: number) {
+// Get a user by id
+export async function fetchUserById(id: number) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .select()
@@ -28,10 +30,11 @@ export async function fetchOrganizationById(id: number) {
   return data;
 }
 
-export async function postOrganization(newOrganization: OrganizationInsert) {
+// Insert a new user
+export async function postUser(newUser: UserInsert) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .insert(newOrganization)
+    .insert(newUser)
     .single();
   if (error) {
     throw new Error(error.message);
@@ -39,27 +42,23 @@ export async function postOrganization(newOrganization: OrganizationInsert) {
   return data;
 }
 
-// Member organizations bulk insert
-export async function postOrganizations(
-  newOrganizations: OrganizationInsert[]
-) {
-  const { data, error } = await supabase
-    .from(TABLE_NAME)
-    .insert(newOrganizations);
+// Users bulk insert
+export async function postUsers(newUsers: UserInsert[]) {
+  const { data, error } = await supabase.from(TABLE_NAME).insert(newUsers);
   if (error) {
     throw new Error(error.message);
   }
   return data;
 }
 
-export async function patchOrganization({
+// Update a user
+export async function patchUser({
   id,
-  ...updatedOrganization
-}: PickAsRequired<Partial<OrganizationUpdate>, "id">) {
-  // Update the organization in Supabase
+  ...updatedUser
+}: PickAsRequired<Partial<UserUpdate>, "id">) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .update(updatedOrganization)
+    .update(updatedUser)
     .eq("id", id)
     .single();
 
@@ -70,8 +69,8 @@ export async function patchOrganization({
   return data;
 }
 
-// Delete organization
-export async function deleteOrganization(id: number) {
+// Delete a user
+export async function deleteUser(id: number) {
   const { data, error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
   if (error) {
     throw new Error(error.message);

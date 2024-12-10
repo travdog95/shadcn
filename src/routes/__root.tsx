@@ -44,6 +44,7 @@ function RootComponent() {
                 ["/callingsworkshop", "Callings Workshop"],
                 ["/memberslist", "Members List"],
                 ["/callings", "Callings"],
+                ["/organizations", "Organizations"],
                 ["/users", "Users"],
                 ["/datafiles", "Data Files"],
                 ["/migration", "Migration"],

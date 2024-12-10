@@ -16,13 +16,18 @@ import { Route as UsersImport } from './routes/users'
 import { Route as SpeakertrackerImport } from './routes/speakertracker'
 import { Route as SacramentmeetingsImport } from './routes/sacramentmeetings'
 import { Route as PrayertrackerImport } from './routes/prayertracker'
+import { Route as OrganizationsImport } from './routes/organizations'
 import { Route as MigrationImport } from './routes/migration'
 import { Route as MemberslistImport } from './routes/memberslist'
 import { Route as DatafilesImport } from './routes/datafiles'
 import { Route as CallingsworkshopImport } from './routes/callingsworkshop'
 import { Route as CallingsImport } from './routes/callings'
 import { Route as IndexImport } from './routes/index'
+import { Route as OrganizationsIdImport } from './routes/organizations.$id'
+import { Route as MigrationUsersImport } from './routes/migration.users'
+import { Route as MigrationSacramentmeetingsImport } from './routes/migration.sacramentmeetings'
 import { Route as MigrationMembersImport } from './routes/migration.members'
+import { Route as MigrationFilesImport } from './routes/migration.files'
 import { Route as MigrationCallingsImport } from './routes/migration.callings'
 import { Route as CallingsIdImport } from './routes/callings.$id'
 
@@ -55,6 +60,12 @@ const SacramentmeetingsRoute = SacramentmeetingsImport.update({
 const PrayertrackerRoute = PrayertrackerImport.update({
   id: '/prayertracker',
   path: '/prayertracker',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrganizationsRoute = OrganizationsImport.update({
+  id: '/organizations',
+  path: '/organizations',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -94,9 +105,35 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const OrganizationsIdRoute = OrganizationsIdImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => OrganizationsRoute,
+} as any)
+
+const MigrationUsersRoute = MigrationUsersImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => MigrationRoute,
+} as any)
+
+const MigrationSacramentmeetingsRoute = MigrationSacramentmeetingsImport.update(
+  {
+    id: '/sacramentmeetings',
+    path: '/sacramentmeetings',
+    getParentRoute: () => MigrationRoute,
+  } as any,
+)
+
 const MigrationMembersRoute = MigrationMembersImport.update({
   id: '/members',
   path: '/members',
+  getParentRoute: () => MigrationRoute,
+} as any)
+
+const MigrationFilesRoute = MigrationFilesImport.update({
+  id: '/files',
+  path: '/files',
   getParentRoute: () => MigrationRoute,
 } as any)
 
@@ -158,6 +195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MigrationImport
       parentRoute: typeof rootRoute
     }
+    '/organizations': {
+      id: '/organizations'
+      path: '/organizations'
+      fullPath: '/organizations'
+      preLoaderRoute: typeof OrganizationsImport
+      parentRoute: typeof rootRoute
+    }
     '/prayertracker': {
       id: '/prayertracker'
       path: '/prayertracker'
@@ -207,12 +251,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MigrationCallingsImport
       parentRoute: typeof MigrationImport
     }
+    '/migration/files': {
+      id: '/migration/files'
+      path: '/files'
+      fullPath: '/migration/files'
+      preLoaderRoute: typeof MigrationFilesImport
+      parentRoute: typeof MigrationImport
+    }
     '/migration/members': {
       id: '/migration/members'
       path: '/members'
       fullPath: '/migration/members'
       preLoaderRoute: typeof MigrationMembersImport
       parentRoute: typeof MigrationImport
+    }
+    '/migration/sacramentmeetings': {
+      id: '/migration/sacramentmeetings'
+      path: '/sacramentmeetings'
+      fullPath: '/migration/sacramentmeetings'
+      preLoaderRoute: typeof MigrationSacramentmeetingsImport
+      parentRoute: typeof MigrationImport
+    }
+    '/migration/users': {
+      id: '/migration/users'
+      path: '/users'
+      fullPath: '/migration/users'
+      preLoaderRoute: typeof MigrationUsersImport
+      parentRoute: typeof MigrationImport
+    }
+    '/organizations/$id': {
+      id: '/organizations/$id'
+      path: '/$id'
+      fullPath: '/organizations/$id'
+      preLoaderRoute: typeof OrganizationsIdImport
+      parentRoute: typeof OrganizationsImport
     }
   }
 }
@@ -233,16 +305,34 @@ const CallingsRouteWithChildren = CallingsRoute._addFileChildren(
 
 interface MigrationRouteChildren {
   MigrationCallingsRoute: typeof MigrationCallingsRoute
+  MigrationFilesRoute: typeof MigrationFilesRoute
   MigrationMembersRoute: typeof MigrationMembersRoute
+  MigrationSacramentmeetingsRoute: typeof MigrationSacramentmeetingsRoute
+  MigrationUsersRoute: typeof MigrationUsersRoute
 }
 
 const MigrationRouteChildren: MigrationRouteChildren = {
   MigrationCallingsRoute: MigrationCallingsRoute,
+  MigrationFilesRoute: MigrationFilesRoute,
   MigrationMembersRoute: MigrationMembersRoute,
+  MigrationSacramentmeetingsRoute: MigrationSacramentmeetingsRoute,
+  MigrationUsersRoute: MigrationUsersRoute,
 }
 
 const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
   MigrationRouteChildren,
+)
+
+interface OrganizationsRouteChildren {
+  OrganizationsIdRoute: typeof OrganizationsIdRoute
+}
+
+const OrganizationsRouteChildren: OrganizationsRouteChildren = {
+  OrganizationsIdRoute: OrganizationsIdRoute,
+}
+
+const OrganizationsRouteWithChildren = OrganizationsRoute._addFileChildren(
+  OrganizationsRouteChildren,
 )
 
 export interface FileRoutesByFullPath {
@@ -252,6 +342,7 @@ export interface FileRoutesByFullPath {
   '/datafiles': typeof DatafilesRoute
   '/memberslist': typeof MemberslistRoute
   '/migration': typeof MigrationRouteWithChildren
+  '/organizations': typeof OrganizationsRouteWithChildren
   '/prayertracker': typeof PrayertrackerRoute
   '/sacramentmeetings': typeof SacramentmeetingsRoute
   '/speakertracker': typeof SpeakertrackerRoute
@@ -259,7 +350,11 @@ export interface FileRoutesByFullPath {
   '/wardlist': typeof WardlistRoute
   '/callings/$id': typeof CallingsIdRoute
   '/migration/callings': typeof MigrationCallingsRoute
+  '/migration/files': typeof MigrationFilesRoute
   '/migration/members': typeof MigrationMembersRoute
+  '/migration/sacramentmeetings': typeof MigrationSacramentmeetingsRoute
+  '/migration/users': typeof MigrationUsersRoute
+  '/organizations/$id': typeof OrganizationsIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -269,6 +364,7 @@ export interface FileRoutesByTo {
   '/datafiles': typeof DatafilesRoute
   '/memberslist': typeof MemberslistRoute
   '/migration': typeof MigrationRouteWithChildren
+  '/organizations': typeof OrganizationsRouteWithChildren
   '/prayertracker': typeof PrayertrackerRoute
   '/sacramentmeetings': typeof SacramentmeetingsRoute
   '/speakertracker': typeof SpeakertrackerRoute
@@ -276,7 +372,11 @@ export interface FileRoutesByTo {
   '/wardlist': typeof WardlistRoute
   '/callings/$id': typeof CallingsIdRoute
   '/migration/callings': typeof MigrationCallingsRoute
+  '/migration/files': typeof MigrationFilesRoute
   '/migration/members': typeof MigrationMembersRoute
+  '/migration/sacramentmeetings': typeof MigrationSacramentmeetingsRoute
+  '/migration/users': typeof MigrationUsersRoute
+  '/organizations/$id': typeof OrganizationsIdRoute
 }
 
 export interface FileRoutesById {
@@ -287,6 +387,7 @@ export interface FileRoutesById {
   '/datafiles': typeof DatafilesRoute
   '/memberslist': typeof MemberslistRoute
   '/migration': typeof MigrationRouteWithChildren
+  '/organizations': typeof OrganizationsRouteWithChildren
   '/prayertracker': typeof PrayertrackerRoute
   '/sacramentmeetings': typeof SacramentmeetingsRoute
   '/speakertracker': typeof SpeakertrackerRoute
@@ -294,7 +395,11 @@ export interface FileRoutesById {
   '/wardlist': typeof WardlistRoute
   '/callings/$id': typeof CallingsIdRoute
   '/migration/callings': typeof MigrationCallingsRoute
+  '/migration/files': typeof MigrationFilesRoute
   '/migration/members': typeof MigrationMembersRoute
+  '/migration/sacramentmeetings': typeof MigrationSacramentmeetingsRoute
+  '/migration/users': typeof MigrationUsersRoute
+  '/organizations/$id': typeof OrganizationsIdRoute
 }
 
 export interface FileRouteTypes {
@@ -306,6 +411,7 @@ export interface FileRouteTypes {
     | '/datafiles'
     | '/memberslist'
     | '/migration'
+    | '/organizations'
     | '/prayertracker'
     | '/sacramentmeetings'
     | '/speakertracker'
@@ -313,7 +419,11 @@ export interface FileRouteTypes {
     | '/wardlist'
     | '/callings/$id'
     | '/migration/callings'
+    | '/migration/files'
     | '/migration/members'
+    | '/migration/sacramentmeetings'
+    | '/migration/users'
+    | '/organizations/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -322,6 +432,7 @@ export interface FileRouteTypes {
     | '/datafiles'
     | '/memberslist'
     | '/migration'
+    | '/organizations'
     | '/prayertracker'
     | '/sacramentmeetings'
     | '/speakertracker'
@@ -329,7 +440,11 @@ export interface FileRouteTypes {
     | '/wardlist'
     | '/callings/$id'
     | '/migration/callings'
+    | '/migration/files'
     | '/migration/members'
+    | '/migration/sacramentmeetings'
+    | '/migration/users'
+    | '/organizations/$id'
   id:
     | '__root__'
     | '/'
@@ -338,6 +453,7 @@ export interface FileRouteTypes {
     | '/datafiles'
     | '/memberslist'
     | '/migration'
+    | '/organizations'
     | '/prayertracker'
     | '/sacramentmeetings'
     | '/speakertracker'
@@ -345,7 +461,11 @@ export interface FileRouteTypes {
     | '/wardlist'
     | '/callings/$id'
     | '/migration/callings'
+    | '/migration/files'
     | '/migration/members'
+    | '/migration/sacramentmeetings'
+    | '/migration/users'
+    | '/organizations/$id'
   fileRoutesById: FileRoutesById
 }
 
@@ -356,6 +476,7 @@ export interface RootRouteChildren {
   DatafilesRoute: typeof DatafilesRoute
   MemberslistRoute: typeof MemberslistRoute
   MigrationRoute: typeof MigrationRouteWithChildren
+  OrganizationsRoute: typeof OrganizationsRouteWithChildren
   PrayertrackerRoute: typeof PrayertrackerRoute
   SacramentmeetingsRoute: typeof SacramentmeetingsRoute
   SpeakertrackerRoute: typeof SpeakertrackerRoute
@@ -370,6 +491,7 @@ const rootRouteChildren: RootRouteChildren = {
   DatafilesRoute: DatafilesRoute,
   MemberslistRoute: MemberslistRoute,
   MigrationRoute: MigrationRouteWithChildren,
+  OrganizationsRoute: OrganizationsRouteWithChildren,
   PrayertrackerRoute: PrayertrackerRoute,
   SacramentmeetingsRoute: SacramentmeetingsRoute,
   SpeakertrackerRoute: SpeakertrackerRoute,
@@ -393,6 +515,7 @@ export const routeTree = rootRoute
         "/datafiles",
         "/memberslist",
         "/migration",
+        "/organizations",
         "/prayertracker",
         "/sacramentmeetings",
         "/speakertracker",
@@ -422,7 +545,16 @@ export const routeTree = rootRoute
       "filePath": "migration.tsx",
       "children": [
         "/migration/callings",
-        "/migration/members"
+        "/migration/files",
+        "/migration/members",
+        "/migration/sacramentmeetings",
+        "/migration/users"
+      ]
+    },
+    "/organizations": {
+      "filePath": "organizations.tsx",
+      "children": [
+        "/organizations/$id"
       ]
     },
     "/prayertracker": {
@@ -448,9 +580,25 @@ export const routeTree = rootRoute
       "filePath": "migration.callings.tsx",
       "parent": "/migration"
     },
+    "/migration/files": {
+      "filePath": "migration.files.tsx",
+      "parent": "/migration"
+    },
     "/migration/members": {
       "filePath": "migration.members.tsx",
       "parent": "/migration"
+    },
+    "/migration/sacramentmeetings": {
+      "filePath": "migration.sacramentmeetings.tsx",
+      "parent": "/migration"
+    },
+    "/migration/users": {
+      "filePath": "migration.users.tsx",
+      "parent": "/migration"
+    },
+    "/organizations/$id": {
+      "filePath": "organizations.$id.tsx",
+      "parent": "/organizations"
     }
   }
 }

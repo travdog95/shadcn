@@ -15,6 +15,9 @@ function RouteComponent() {
           [
             ["/migration/members", "Members", true],
             ["/migration/callings", "Callings"],
+            ["/migration/sacramentmeetings", "Sacrament Meetings"],
+            ["/migration/users", "Users"],
+            ["/migration/files", "Files"],
           ] as const
         ).map(([to, label, exact]) => {
           return (

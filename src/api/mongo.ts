@@ -32,3 +32,23 @@ export const mdGetSacramentMeetings = () =>
       return response.data.data;
     },
   });
+
+// Get users from MongoDB
+export const mdGetUsers = () =>
+  queryOptions({
+    queryKey: ["md-users"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/users`);
+      return response.data.data;
+    },
+  });
+
+// Get files from MongoDB
+export const mdGetFiles = () =>
+  queryOptions({
+    queryKey: ["md-files"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/fileinfo`);
+      return response.data.data;
+    },
+  });

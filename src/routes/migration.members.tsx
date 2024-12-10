@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { useCreateMember } from "@/api/members";
+import { useCreateMembers } from "@/api/members";
 import { mdGetMembers } from "@/api/mongo";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
@@ -12,28 +12,41 @@ export const Route = createFileRoute("/migration/members")({
 function MigrationComponent() {
   const membersQuery = useSuspenseQuery(mdGetMembers());
   const members: Array<{ [key: string]: any }> = membersQuery.data;
-  const createMember = useCreateMember();
+  const createMembers = useCreateMembers();
 
   const handleMigrateMembers = async () => {
-    members.forEach((m: { [key: string]: any }) => {
-      if (m.firstName === "Travis") {
-        //populate mdID with _id
-        m.mdID = m._id;
-        delete m._id;
-        delete m.__v;
-        delete m.callings;
-        delete m.createdAt;
-        delete m.updatedAt;
-        delete m.schemaVersion;
-        //Insert into Supabase Members table
-        createMember.mutate(m);
-      }
+    const transformedMembers = members.map((m: { [key: string]: any }) => {
+      //populate mdID with _id
+      m.mdID = m._id;
+      delete m._id;
+      delete m.__v;
+      delete m.callings;
+      delete m.createdAt;
+      delete m.updatedAt;
+      delete m.schemaVersion;
+      return m;
     });
+
+    createMembers.mutate(
+      transformedMembers.filter((m) => m !== undefined),
+      {
+        onSuccess: () => {
+          console.log("Migrated Members");
+        },
+        onError: (error) => {
+          console.error("Error migrating members:", error);
+        },
+      }
+    );
   };
 
   return (
     <div>
-      <Button onClick={handleMigrateMembers}>Migrate Members</Button>
+      <Button disabled onClick={handleMigrateMembers}>
+        Migrate Members
+      </Button>
+      {createMembers.isPending && <div>Migrating...</div>}
+      <p>Completed</p>
     </div>
   );
 }

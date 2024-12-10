@@ -34,7 +34,6 @@ function CallingComponent() {
         const formData = new FormData(event.target as HTMLFormElement);
         updateCallingMutation.mutate({
           id: calling.id,
-          // organization: formData.get("organization") as string,
           calling: formData.get("calling") as string,
           organizationId: Number(formData.get("organizationId")),
         });
