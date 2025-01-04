@@ -18,6 +18,11 @@ function RouteComponent() {
             ["/migration/sacramentmeetings", "Sacrament Meetings"],
             ["/migration/users", "Users"],
             ["/migration/files", "Files"],
+            ["/migration/membercallings", "Member Callings"],
+            ["/migration/assignments", "Assignments"],
+            ["/migration/callingworkshopitems", "Calling Workshop"],
+            ["/migration/prayers", "Prayers"],
+            ["/migration/talks", "Talks"],
           ] as const
         ).map(([to, label, exact]) => {
           return (

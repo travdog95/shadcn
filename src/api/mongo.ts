@@ -52,3 +52,53 @@ export const mdGetFiles = () =>
       return response.data.data;
     },
   });
+
+// Get memberCallings from MongoDB
+export const mdGetMemberCallings = () =>
+  queryOptions({
+    queryKey: ["md-membercallings"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/membercallings`);
+      return response.data;
+    },
+  });
+
+//Get assignments from MongoDB
+export const mdGetAssignments = () =>
+  queryOptions({
+    queryKey: ["md-assignments"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/assignments`);
+      return response.data;
+    },
+  });
+
+// Get calling workshop items from MongoDB
+export const mdGetCallingWorkshopItems = () =>
+  queryOptions({
+    queryKey: ["md-callingworkshopitems"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/callingworkshopitems`);
+      return response.data;
+    },
+  });
+
+// Get prayers from MongoDB
+export const mdGetPrayers = () =>
+  queryOptions({
+    queryKey: ["md-prayers"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/prayers`);
+      return response.data;
+    },
+  });
+
+// Get talks from MongoDB
+export const mdGetTalks = () =>
+  queryOptions({
+    queryKey: ["md-talks"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/talks`);
+      return response.data;
+    },
+  });

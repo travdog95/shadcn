@@ -1,24 +1,25 @@
 import { TablesInsert, TablesUpdate } from "@/utils/supabase.types";
 import { supabase } from "@/lib/supabase";
 
-const TABLE_NAME = "callings";
+const TABLE_NAME = "prayers";
 
-type CallingInsert = TablesInsert<"callings">;
-type CallingUpdate = TablesUpdate<"callings">;
+type PrayerInsert = TablesInsert<"prayers">;
+type PrayerUpdate = TablesUpdate<"prayers">;
+
 type PickAsRequired<TValue, TKey extends keyof TValue> = Omit<TValue, TKey> &
   Required<Pick<TValue, TKey>>;
 
-// Get all callings
-export async function fetchCallings() {
-  const { data, error } = await supabase.from(TABLE_NAME).select().order("id");
+// Get all prayers
+export async function fetchPrayers() {
+  const { data, error } = await supabase.from(TABLE_NAME).select();
   if (error) {
     throw new Error(error.message);
   }
   return data;
 }
 
-// Get a calling by id
-export async function fetchCallingById(id: number) {
+// Get a prayer by id
+export async function fetchPrayerById(id: number) {
   const { data, error } = await supabase.from(TABLE_NAME).select().eq("id", id).single();
   if (error) {
     throw new Error(error.message);
@@ -26,32 +27,32 @@ export async function fetchCallingById(id: number) {
   return data;
 }
 
-// Insert a new calling
-export async function postCalling(newCalling: CallingInsert) {
-  const { data, error } = await supabase.from(TABLE_NAME).insert(newCalling).single();
+// Insert a new prayer
+export async function postPrayer(newPrayer: PrayerInsert) {
+  const { data, error } = await supabase.from(TABLE_NAME).insert(newPrayer).single();
   if (error) {
     throw new Error(error.message);
   }
   return data;
 }
 
-// Callings bulk insert
-export async function postCallings(newCallings: CallingInsert[]) {
-  const { data, error } = await supabase.from(TABLE_NAME).insert(newCallings);
+// Prayers bulk insert
+export async function postPrayers(newPrayers: PrayerInsert[]) {
+  const { data, error } = await supabase.from(TABLE_NAME).insert(newPrayers);
   if (error) {
     throw new Error(error.message);
   }
   return data;
 }
 
-// Update a calling
-export async function patchCalling({
+// Update a prayer
+export async function patchPrayer({
   id,
-  ...updatedCalling
-}: PickAsRequired<Partial<CallingUpdate>, "id">) {
+  ...updatedPrayer
+}: PickAsRequired<Partial<PrayerUpdate>, "id">) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .update(updatedCalling)
+    .update(updatedPrayer)
     .eq("id", id)
     .single();
 
@@ -62,8 +63,8 @@ export async function patchCalling({
   return data;
 }
 
-// Delete a calling
-export async function deleteCalling(id: number) {
+// Delete a prayer
+export async function deletePrayer(id: number) {
   const { data, error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
   if (error) {
     throw new Error(error.message);

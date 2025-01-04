@@ -91,24 +91,27 @@ export type Database = {
           created_at: string
           currentOfficerId: number | null
           id: number
-          releaseStatus: string[] | null
-          sustainStatus: string[] | null
+          note: string | null
+          releaseStatus: string | null
+          sustainStatus: string | null
         }
         Insert: {
           callingId?: number | null
           created_at?: string
           currentOfficerId?: number | null
           id?: number
-          releaseStatus?: string[] | null
-          sustainStatus?: string[] | null
+          note?: string | null
+          releaseStatus?: string | null
+          sustainStatus?: string | null
         }
         Update: {
           callingId?: number | null
           created_at?: string
           currentOfficerId?: number | null
           id?: number
-          releaseStatus?: string[] | null
-          sustainStatus?: string[] | null
+          note?: string | null
+          releaseStatus?: string | null
+          sustainStatus?: string | null
         }
         Relationships: [
           {
@@ -343,24 +346,24 @@ export type Database = {
           date: string | null
           id: number
           memberId: number | null
-          prayerType: string[]
-          sacramentmeetingId: number | null
+          prayerType: string | null
+          sacramentMeetingId: number | null
         }
         Insert: {
           created_at?: string
           date?: string | null
           id?: number
           memberId?: number | null
-          prayerType: string[]
-          sacramentmeetingId?: number | null
+          prayerType?: string | null
+          sacramentMeetingId?: number | null
         }
         Update: {
           created_at?: string
           date?: string | null
           id?: number
           memberId?: number | null
-          prayerType?: string[]
-          sacramentmeetingId?: number | null
+          prayerType?: string | null
+          sacramentMeetingId?: number | null
         }
         Relationships: [
           {
@@ -371,8 +374,8 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "prayers_sacramentmeetingId_fkey"
-            columns: ["sacramentmeetingId"]
+            foreignKeyName: "prayers_sacramentMeetingId_fkey"
+            columns: ["sacramentMeetingId"]
             isOneToOne: false
             referencedRelation: "sacramentmeetings"
             referencedColumns: ["id"]
@@ -413,8 +416,8 @@ export type Database = {
           id: number
           memberId: number | null
           rank: number | null
-          sacramentmeetingId: number | null
-          talkType: string[] | null
+          sacramentMeetingId: number | null
+          talkType: string | null
           topic: string | null
         }
         Insert: {
@@ -423,8 +426,8 @@ export type Database = {
           id?: number
           memberId?: number | null
           rank?: number | null
-          sacramentmeetingId?: number | null
-          talkType?: string[] | null
+          sacramentMeetingId?: number | null
+          talkType?: string | null
           topic?: string | null
         }
         Update: {
@@ -433,8 +436,8 @@ export type Database = {
           id?: number
           memberId?: number | null
           rank?: number | null
-          sacramentmeetingId?: number | null
-          talkType?: string[] | null
+          sacramentMeetingId?: number | null
+          talkType?: string | null
           topic?: string | null
         }
         Relationships: [
@@ -446,8 +449,8 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "talks_sacramentmeetingId_fkey"
-            columns: ["sacramentmeetingId"]
+            foreignKeyName: "talks_sacramentMeetingId_fkey"
+            columns: ["sacramentMeetingId"]
             isOneToOne: false
             referencedRelation: "sacramentmeetings"
             referencedColumns: ["id"]
@@ -456,6 +459,8 @@ export type Database = {
       }
       users: {
         Row: {
+          calling: string | null
+          callingId: number | null
           created_at: string
           email: string | null
           firstName: string | null
@@ -470,6 +475,8 @@ export type Database = {
           refreshToken: string | null
         }
         Insert: {
+          calling?: string | null
+          callingId?: number | null
           created_at?: string
           email?: string | null
           firstName?: string | null
@@ -484,6 +491,8 @@ export type Database = {
           refreshToken?: string | null
         }
         Update: {
+          calling?: string | null
+          callingId?: number | null
           created_at?: string
           email?: string | null
           firstName?: string | null
