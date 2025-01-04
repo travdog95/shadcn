@@ -3,8 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { AgGridReact } from "ag-grid-react";
 import { ColDef, GridOptions, RowSelectedEvent } from "ag-grid-community";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
 
 import { membersQueryOptions } from "@/api/members";
 import {
@@ -12,7 +10,7 @@ import {
   formatDate,
   normalizePhoneNumber,
 } from "@/utils/helpers";
-import { CompanyLogoRenderer } from "@/components/Note";
+import Note from "@/components/Note";
 
 export const Route = createFileRoute("/memberslist")({
   loader: (opts) =>
@@ -80,10 +78,7 @@ function MembersListComponent() {
       field: "note",
       headerName: "Note",
       width: 75,
-      // valueFormatter: (params) => {
-      //   return params.value ? "Yes" : "No";
-      // },
-      cellRenderer: CompanyLogoRenderer,
+      cellRenderer: () => <button>Note</button>,
     },
   ]);
 
@@ -93,29 +88,31 @@ function MembersListComponent() {
   };
 
   const gridOptions: GridOptions = {
-    rowHeight: 30,
+    rowHeight: 35,
     multiSortKey: "ctrl",
-    rowSelection: {
-      mode: "singleRow",
-      checkboxes: false,
-      enableClickSelection: true,
-    },
+    // rowSelection: {
+    //   mode: "singleRow",
+    //   checkboxes: false,
+    //   enableClickSelection: true,
+    // },
   };
 
   return (
     <div className="flex-1 flex">
-      <div className="ag-theme-alpine w-full" style={{ height: 700 }}>
+      <Note />
+      {/* <div className="ag-theme-alpine w-full" style={{ height: 700 }}>
         <AgGridReact
-          gridOptions={gridOptions}
           rowData={rowData}
+          gridOptions={gridOptions}
           defaultColDef={defaultColDef}
           columnDefs={colDefs}
           pagination={true}
           paginationPageSize={50}
           paginationPageSizeSelector={[50, 100, 200]}
-          onRowSelected={onRowSelected}
+          // onRowSelected={onRowSelected}
+          // components={{ noteRenderer: Note }}
         ></AgGridReact>
-      </div>
+      </div> */}
     </div>
   );
 }

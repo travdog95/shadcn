@@ -9,6 +9,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { auth } from "@/utils/auth";
 import { Spinner } from "@/components/Spinner";
 import { routeTree } from "@/routeTree.gen";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 
 export const queryClient = new QueryClient();
 

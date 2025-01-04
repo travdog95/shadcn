@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { AgGridReact } from "ag-grid-react";
-import { RowSelectedEvent, ColDef } from "ag-grid-community";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import { RowSelectedEvent, ColDef, GridOptions } from "ag-grid-community";
 
 import { organizationsQueryOptions } from "@/api/organizations";
-// import { ColDef } from "node_modules/ag-grid-community/dist/types/core/main";
 
 export const Route = createFileRoute("/organizations")({
   loader: (opts) =>
@@ -45,17 +42,32 @@ function RouteComponent() {
     setRowData(organizations);
   }, [organizations]);
 
+  const defaultColDef: ColDef = {
+    sortable: true,
+    resizable: true,
+  };
+
+  const gridOptions: GridOptions = {
+    // rowHeight: 35,
+    multiSortKey: "ctrl",
+    rowSelection: {
+      mode: "singleRow",
+      checkboxes: false,
+      enableClickSelection: true,
+    },
+  };
+
   return (
     <div className="flex-1 flex">
       <div className="ag-theme-alpine " style={{ height: 400, width: 500 }}>
         <AgGridReact
           rowData={rowData}
           columnDefs={colDefs}
+          gridOptions={gridOptions}
+          defaultColDef={defaultColDef}
           pagination={true}
-          // paginationPageSize={15}
-          paginationAutoPageSize={true}
-          // paginationPageSizeSelector={[15, 30, 60]}
-          rowSelection="single"
+          paginationPageSize={50}
+          paginationPageSizeSelector={[50, 100, 200]}
           onRowSelected={onRowSelected}
         ></AgGridReact>
       </div>
